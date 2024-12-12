@@ -1,31 +1,37 @@
 #include "controller.h"
 
-controller::controller(entity& somebody, field& somewhere, cords xy)
-    : e(somebody), f(somewhere), cords_(xy)
-{
-}
+controller::controller(entity& some_entity, field& game_field, cords start_cords)
+    : e(some_entity), f(game_field), cords_(start_cords) {}
 
-cords controller::get_cords_()
+cords controller::get_cords() const
 {
     return cords_;
 }
 
 void controller::move(Direction move_direction)
 {
-    if (move_direction == Top){
-        if (f.touch_cell(cords_.x_, cords_.y_ + 1) != Barrier)
-            cords_.y_ += 1;
+    int new_x = cords_.x_;
+    int new_y = cords_.y_;
+
+    switch (move_direction)
+    {
+    case Top:
+        new_y += 1;
+        break;
+    case Bottom:
+        new_y -= 1;
+        break;
+    case Right:
+        new_x += 1;
+        break;
+    case Left:
+        new_x -= 1;
+        break;
     }
-    if (move_direction == Bottom){
-        if (f.touch_cell(cords_.x_, cords_.y_ - 1) != Barrier)
-            cords_.y_ -= 1;
-    }
-    if (move_direction == Right){
-        if (f.touch_cell(cords_.x_ + 1, cords_.y_ ) != Barrier)
-            cords_.x_ += 1;
-    }
-    if (move_direction == Left){
-        if (f.touch_cell(cords_.x_ - 1, cords_.y_ ) != Barrier)
-            cords_.x_ -= 1;
+
+    if (f.touch_cell(new_x, new_y) != Barrier)
+    {
+        cords_.x_ = new_x;
+        cords_.y_ = new_y;
     }
 }
