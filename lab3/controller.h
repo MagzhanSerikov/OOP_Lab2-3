@@ -9,10 +9,9 @@ class Controller
 private:
     player& p_;
     field& f_;
-protected:
     cords cords_;
 public:
-    Controller(player& p, field& f) : p_(p), f_(f) {}
+    Controller(player& p, field& f, cords xy) : p_(p), f_(f) cords_(xy){}
     cords get_cords_();
     void move(Direction move_direction);
     void checkAndTriggerEvent(int x, int y)
